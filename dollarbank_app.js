@@ -25,9 +25,22 @@ while(x == true)
     {
         let firstName = prompt("what is your first name: ");
         let lastName = prompt("what is your last name: ");
-        let phone = prompt("what us your phone number: ");
+        let phone = prompt("what is your 10 digit phone number: ");
+        let phoneTest = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
+        while (phoneTest.test(phone) != true && phone != "exit")
+        {
+            console.log("\n\x1B[31mPlease enter a valid 10 digit Phone Number or type exit to end account creation\n\x1B[37m");
+            phone = prompt("what is your phone number:  ");
+            if (phone == 'exit')
+            {
+                continue;
+            }
+        }
         let amount = prompt("How much money will you be depositing to open this account: ");
-        while (Number.isFinite(amount) != true && amount <= 0 && amount != "exit")
+        let amountTest = /^(?:(?:[1-9](?:\d{0,2}(?:,\d{3})+|\d*))|(?:0|(?:[1-9](?:\d{0,2}(?:,\d{3})+|\d*))))(?:.\d+|)$/;
+        let isvalidAmount = amountTest.test(amount);
+        //console.log(isvalidAmount);
+        while (isvalidAmount == false && amount != "exit")
         {
             console.log("\n\x1B[31mPlease enter a valid amount or type exit to end account creation\n\x1B[37m");
             amount = prompt("How much money will you be depositing to open this account: ");
@@ -35,8 +48,34 @@ while(x == true)
             {
                 continue;
             }
+            isvalidAmount = amountTest.test(amount)
         }
-        let pin = prompt("Please enter a secure pin you will remember: ");
+        /*while (amount < 0)
+        {
+            console.log("\n\x1B[31mPlease enter a valid amount or type exit to end account creation\n\x1B[37m");
+            amount = prompt("How much money will you be depositing to open this account: ");
+            if (amount == 'exit')
+            {
+                continue;
+            }
+        }*/
+        let pin = prompt("Please enter a secure 4 digit pin you will remember: ");
+        let pinTest = /^\d{4}$/;
+        while (pinTest.test(pin) != true && pin != "exit")
+        {
+            console.log("\n\x1B[31mPlease enter a valid Pin or type exit to end account creation\n\x1B[37m");
+            pin = prompt("Please enter a secure 4 digit pin: ");
+            if (pin == 'exit')
+            {
+                continue;
+            }
+        }
+        if (pin == 'exit' || amount == 'exit' || phone == 'exit')
+        {
+            console.log("\n\x1B[31mAccount Could not be created\n\x1B[37m");1
+            
+            continue;
+        }
         let id = db.firstAvalibleId();
         let toAdd = new CxAccount.Cx(id,firstName,lastName,phone, amount ,pin);
         db.addAccount(toAdd);
@@ -119,19 +158,19 @@ while(x == true)
             else
             {
                 console.log("\n");
-                console.log("Please enter a valid choice")
+                console.log("\x1B[31mPlease enter a valid choice\x1B[37m")
             }
             
         }
     }
     else if (initalChoice == 0)
     {
-        av.printInABox('Thank you for baking with DollarsBank');
+        av.printInABox('Thank you for banking with DollarsBank');
         x = false;
     }
     else
     {
-        console.log("Please enter a valid selection");
+        console.log("\x1B[31mPlease enter a valid selection\x1B[37m");
     }
     //rl.close();
 }

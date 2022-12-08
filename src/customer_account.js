@@ -57,7 +57,7 @@ class Cx
             let Current = parseFloat(this.amount);
             let total = Current - toMinus;
             this.amount = total;
-            this.trackTransaction("Withdrew: $" + x +". New Balance: $" + this.amount);
+            this.trackTransaction("Withdrew: $" + x +". New Balance: $" + this.amount + ". Transaction happened on " + new Date());
         }
         else
         {
@@ -73,7 +73,7 @@ class Cx
             let Current = parseFloat(this.amount);
             let total = toAdd + Current;
             this.amount = total;
-            this.trackTransaction("Deposited: $" + x +". New Balance: $" + this.amount);
+            this.trackTransaction("Deposited: $" + x +". New Balance: $" + this.amount + ". Transaction happened on " + new Date());
         }
         else
         {
