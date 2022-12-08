@@ -16,13 +16,7 @@ function printInABox(x)
         out += "-";
     }
     out += "+";
-    out = '%c'+out;
-    console.log(out,'color: #bada55');
+    console.log('\x1B[32m' + out + '\x1B[37m');
 }
 
-function printValue(x)
-{
-   // let 
-}
-//export default printInABox;
 module.exports = {printInABox};

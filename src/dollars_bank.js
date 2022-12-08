@@ -1,7 +1,7 @@
 const Cx = require('./customer_account.js')
 
 const CxAccounts = [];
-
+let accountIds = parseInt(0);
 
 function getAccount(id)
 {
@@ -13,9 +13,11 @@ function getAllAccounts()
     return CxAccounts;
 }
 
+
 function firstAvalibleId()
 {
-    return CxAccounts.length;
+    accountIds = accountIds + 1;
+    return accountIds;
 }
 
 function addAccount(x)
