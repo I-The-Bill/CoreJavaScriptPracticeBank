@@ -19,8 +19,9 @@ let adMinAdd = new CxAccount.Cx(aId,fn,ln,aPhone, aAmount ,aPin);
 db.addAccount(adMinAdd);
 while(x == true)
 {
-
-    let initalChoice = prompt("\nWhat would you like to do\n1. Create an account\n2. Login\n0. Exit\n");
+    let initalChoicePrompt = ("\nWhat would you like to do\n1. Create an account\n2. Login\n0. Exit");
+    console.log(initalChoicePrompt);
+    let initalChoice = prompt("");
     if(initalChoice == 1)
     {
         let firstName = prompt("what is your first name: ");
@@ -29,7 +30,7 @@ while(x == true)
         let phoneTest = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
         while (phoneTest.test(phone) != true && phone != "exit")
         {
-            console.log("\n\x1B[31mPlease enter a valid 10 digit Phone Number or type exit to end account creation\n\x1B[37m");
+            av.error("Please enter a valid 10 digit Phone Number or type exit to end account creation\n");
             phone = prompt("what is your phone number:  ");
             if (phone == 'exit')
             {
@@ -42,7 +43,7 @@ while(x == true)
         //console.log(isvalidAmount);
         while (isvalidAmount == false && amount != "exit")
         {
-            console.log("\n\x1B[31mPlease enter a valid amount or type exit to end account creation\n\x1B[37m");
+            av.error("Please enter a valid amount or type exit to end account creation\n");
             amount = prompt("How much money will you be depositing to open this account: ");
             if (amount == 'exit')
             {
@@ -63,7 +64,7 @@ while(x == true)
         let pinTest = /^\d{4}$/;
         while (pinTest.test(pin) != true && pin != "exit")
         {
-            console.log("\n\x1B[31mPlease enter a valid Pin or type exit to end account creation\n\x1B[37m");
+            av.error("Please enter a valid Pin or type exit to end account creation");
             pin = prompt("Please enter a secure 4 digit pin: ");
             if (pin == 'exit')
             {
@@ -72,14 +73,14 @@ while(x == true)
         }
         if (pin == 'exit' || amount == 'exit' || phone == 'exit')
         {
-            console.log("\n\x1B[31mAccount Could not be created\n\x1B[37m");1
+            av.error("\nAccount Could not be created\n");1
             
             continue;
         }
         let id = db.firstAvalibleId();
         let toAdd = new CxAccount.Cx(id,firstName,lastName,phone, amount ,pin);
         db.addAccount(toAdd);
-        console.log("\n\nPlease write down your Id number ass you will need it to login.");
+        console.log("\n\nPlease write down your Id number as you will need it to login.");
         av.printInABox('Your account Id number is ' + toAdd.getId());
     }
     else if (initalChoice == 2)
@@ -89,7 +90,7 @@ while(x == true)
         let accountToLoginInTo = db.getAccount(loginId);
         if (accountToLoginInTo == undefined)
         {
-            console.log('\n\x1B[31mAccount not found\x1B[37m');
+            av.error("\nAccount not found");
             continue;
         }
         let loginPin = prompt("Please enter your secure pin: ");
@@ -99,14 +100,20 @@ while(x == true)
         }
         else
         {
-            console.log('\n\x1B[31mYour credentials are incorrect\x1B[37m\n');
+            av.error("\nYour credentials are incorrect\x1B[37m\n");
             continue;
         }
         av.printInABox("Welcome " + accountToLoginInTo.getName())
         while(loggedIn == true)
         {
-            
-            let loggedInChoice = prompt("\nWhat would you like to do\n1. Check Balance \n2. Print Last Transactions \n3. Update pin\n4. Withdraw \n5. Deposit\n0. Exit\n");
+            console.log()
+            let choices = ("\nWhat would you like to do\n1. Check Balance \n2. Print Last Transactions \n3. Update pin\n4. Withdraw \n5. Deposit\n0. Exit");
+            if (loginId == 0)
+            {
+                choices += "\n\nAdditional Admin options: \n10. See all accounts";
+            }
+            console.log(choices);
+            let loggedInChoice = prompt("");
             if (loggedInChoice == 1)
             {
                 console.log("\n");
@@ -129,7 +136,7 @@ while(x == true)
                 }
                 else
                 {
-                    console.log("\x1B[31mInccorrect Pin \x1B[37m")
+                    av.error("Inccorrect Pin");
                 }
             }
             else if (loggedInChoice == 4)
@@ -144,7 +151,7 @@ while(x == true)
                 let toDeposit = prompt("How much would you like to Deposit: ");
                 db.getAccount(loginId).deposit(toDeposit);
             }
-            else if (loggedInChoice == 6 && loginId == 0)
+            else if (loggedInChoice == 10 && loginId == 0)
             {
                 console.log("\n");
                 console.log(db.getAllAccounts());
@@ -158,7 +165,7 @@ while(x == true)
             else
             {
                 console.log("\n");
-                console.log("\x1B[31mPlease enter a valid choice\x1B[37m")
+                av.error("Please enter a valid choice");
             }
             
         }
@@ -170,7 +177,7 @@ while(x == true)
     }
     else
     {
-        console.log("\x1B[31mPlease enter a valid selection\x1B[37m");
+        av.error("Please enter a valid selection");
     }
     //rl.close();
 }

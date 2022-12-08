@@ -19,4 +19,8 @@ function printInABox(x)
     console.log('\x1B[32m' + out + '\x1B[37m');
 }
 
-module.exports = {printInABox};
+function error(x)
+{
+    console.log("\n\x1B[31m"+x+"\n\x1B[37m")
+}
+module.exports = {printInABox, error};
